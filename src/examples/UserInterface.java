@@ -21,6 +21,8 @@ import java.net.UnknownHostException;
 public class UserInterface {
 
 	BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+	
+	String[] listStocks = {"AAPL", "IBM", "MSFT", "ORCL"};
 
 	public String input() throws IOException {
 		return stdIn.readLine();
@@ -41,7 +43,7 @@ public class UserInterface {
 		String typeRequest = "";
 		String stocksNumbers = "";
 		String stocksPrice = "";
-		String stocksName = "AAPL";
+		String stocksName = listStocks[(int)(Math.random()*listStocks.length)]; // random
 		String IPSource = "localhost";
 		String IPDest = "192.168.10.1"; // to modify....
 
