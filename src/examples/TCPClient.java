@@ -22,11 +22,21 @@ public class TCPClient {
   static BufferedReader fromServer;
   static DataOutputStream toServer;
   static UserInterface user = new UserInterface();
+  static String typeRequest;
 
   public static void main(String[] args) throws Exception {
+	  
+
+	 line = user.getAllInformations();
+	 user.output(line);
+	 
+	 
+	/* 
     socket = new Socket("localhost", 9999);
+    
     toServer = new DataOutputStream(     // Datastream FROM Server
       socket.getOutputStream());
+    
     fromServer = new BufferedReader(     // Datastream TO Server
       new InputStreamReader(socket.getInputStream()));
     while (sendRequest()) {              // Send requests while connected
@@ -35,6 +45,7 @@ public class TCPClient {
     socket.close();
     toServer.close();
     fromServer.close();
+    */
   }
 
   private static boolean sendRequest() throws IOException {
