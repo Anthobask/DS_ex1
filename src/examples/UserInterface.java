@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 /*
  * 21. 5. 10
  */
@@ -35,19 +38,20 @@ public class UserInterface {
 	public String getAllInformations() {
 
 		int callOut;
-		String typeRequest="";
-		String stocksNumbers="";
-		String stocksPrice="";
-		String stocksName="AAPL";
+		String typeRequest = "";
+		String stocksNumbers = "";
+		String stocksPrice = "";
+		String stocksName = "AAPL";
+		String IPSource = "localhost";
+		String IPDest = "192.168.10.1"; // to modify....
 
-		String protocol="";
 		try {
 
 			// seller or buyer ?
 			callOut = 1;
 			while (callOut == 1) {
 				callOut = 0;
-				this.output("Do you want to buy (1) or to sell (2) ?");
+				this.output("Do you want to buy (1) or to sell (2) ? ");
 				String line = stdIn.readLine();
 				if (line.equals("1")) {
 					typeRequest = "A"; // type request is "Adds"
@@ -55,8 +59,7 @@ public class UserInterface {
 					typeRequest = "B"; // type request is "Bids
 				} else if (line.equals("0")) {
 					callOut = -1; // go out
-				} 
-				else {
+				} else {
 					callOut = 1;
 				}
 			}
@@ -65,7 +68,7 @@ public class UserInterface {
 				callOut = 1;
 				while (callOut == 1) {
 					callOut = 0;
-					this.output("How many stocks ?");
+					this.output("How many stocks ? ");
 					String line = this.input();
 					if (line.equals("0")) {
 						callOut = -1;
@@ -80,7 +83,7 @@ public class UserInterface {
 				callOut = 1;
 				while (callOut == 1) {
 					callOut = 0;
-					this.output("How much ?");
+					this.output("How much ? ");
 					String line = this.input();
 					if (line.equals("0")) {
 						callOut = -1;
@@ -89,13 +92,25 @@ public class UserInterface {
 					}
 				}
 			}
-			
-		String IPSource = 	"192.168.10.1";
-		String IPDest = 	"192.168.10.1";
-		
-		return IPSource+";"+IPDest+";"+typeRequest+";"+stocksName+";"+stocksPrice+";"+stocksNumbers+"!";
-			
-			
+
+			try {
+				InetAddress thisIp = InetAddress.getLocalHost();
+				IPSource = thisIp.getHostAddress();
+			} catch (UnknownHostException e) {
+				System.out.println("IP is not found... ");
+				e.printStackTrace();
+			}
+
+			if (typeRequest == "A") {
+				this.output("You want buy " + stocksNumbers + " stocks of "
+						+ stocksName + " for " + stocksPrice + "$");
+			} else if (typeRequest == "B") {
+				this.output("You want sell " + stocksNumbers + " stocks of "
+						+ stocksName + " for " + stocksPrice + "$");
+			}
+			return IPSource + ";" + IPDest + ";" + typeRequest + ";"
+					+ stocksName + ";" + stocksPrice + ";" + stocksNumbers
+					+ "!";
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
