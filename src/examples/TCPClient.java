@@ -23,11 +23,13 @@ public class TCPClient {
 	static DataOutputStream toServer;
 	static UserInterface user = new UserInterface();
 	static String typeRequest;
+	public static String lineProtocol;
 
 	public static void main(String[] args) throws Exception {
 
-		line = user.getAllInformations();
-		user.output(line);
+
+		lineProtocol = user.getAllInformations();
+		user.output("Message to send to Brocker : "+line);
 
 		socket = new Socket("localhost", 9999);
 
@@ -46,9 +48,8 @@ public class TCPClient {
 
 	private static boolean sendRequest() throws IOException {
 		boolean holdTheLine = true; // Connection exists
-		user.output("Enter message for the Server, or end the session with . : ");
-		toServer.writeBytes((line = user.input()) + '\n');
-		if (line.equals(".")) { // Does the user want to end the session?
+		toServer.writeBytes(lineProtocol);
+		if (line.equals("!")) { // Does the user want to end the session?
 			holdTheLine = false;
 		}
 		return holdTheLine;
