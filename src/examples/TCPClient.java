@@ -29,7 +29,7 @@ public class TCPClient {
 
 
 		lineProtocol = user.getAllInformations();
-
+		//lineProtocol = "localhost;localhost;A;APPL;50;20!" +'\n';
 		socket = new Socket("localhost", 9999);
 
 		toServer = new DataOutputStream( // Datastream FROM Server

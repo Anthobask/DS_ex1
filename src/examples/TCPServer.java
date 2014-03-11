@@ -29,6 +29,7 @@ public class TCPServer {
 					+ client.getRemoteSocketAddress());
 			handleRequests(client);
 		}
+		
 	}
 
 	static void handleRequests(Socket s) {
@@ -39,7 +40,7 @@ public class TCPServer {
 																	// TO Client
 			while (receiveRequest()) { // As long as connection exists
 				parseFromClient(line);
-				sendResponse();
+				sendResponse();			
 			}
 			fromClient.close();
 			toClient.close();
@@ -70,9 +71,10 @@ public class TCPServer {
 	}
 
 	static void sendResponse() throws IOException {
+		//toClient.writeBytes("toto" +'\n');
 		toClient.writeBytes("Hi, you are : " + off.getM_identity()
-				+ "\n\nYour request is : \n \nYou want " + off.getM_stockType()
+				+ "Your request is : You want " + off.getM_stockType()
 				+ " " + off.getM_quantity() + " of " + off.getM_stockName()
-				+ " in price of " + off.getM_price()); // Send answer
+				+ " in price of " + off.getM_price() + '\n'); // Send answer
 	}
 }
