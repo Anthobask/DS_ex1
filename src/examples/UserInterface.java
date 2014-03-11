@@ -106,8 +106,7 @@ public class UserInterface {
 			
 			
 			return IPSource + ";" + IPDest + ";" + typeRequest + ";"
-					+ stocksName + ";" + stocksPrice + ";" + stocksNumbers
-					+ "!" + '\n';
+					+ stocksName + ";" + stocksPrice + ";" + stocksNumbers + "!";
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

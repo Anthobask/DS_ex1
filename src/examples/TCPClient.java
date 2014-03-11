@@ -28,7 +28,7 @@ public class TCPClient {
 	public static void main(String[] args) throws Exception {
 
 
-		lineProtocol = user.getAllInformations();
+		
 		//lineProtocol = "localhost;localhost;A;APPL;50;20!" +'\n';
 		socket = new Socket("localhost", 9999);
 
@@ -47,7 +47,7 @@ public class TCPClient {
 
 	private static boolean sendRequest() throws IOException {
 		boolean holdTheLine = true; // Connection exists
-		toServer.writeBytes(lineProtocol);
+		toServer.writeBytes((lineProtocol = user.getAllInformations()) + '\n');
 		if (lineProtocol.equals("!")) { // Does the user want to end the session?
 			holdTheLine = false;
 		}
