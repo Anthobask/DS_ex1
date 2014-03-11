@@ -85,7 +85,7 @@ public class UserInterface {
 				callOut = 1;
 				while (callOut == 1) {
 					callOut = 0;
-					this.output("How much ? ");
+					this.output("How much for unit price ? ");
 					String line = this.input();
 					if (line.equals("0")) {
 						callOut = -1;
