@@ -101,13 +101,8 @@ public class UserInterface {
 				e.printStackTrace();
 			}
 
-			if (typeRequest == "A") {
-				this.output("You want buy " + stocksNumbers + " stocks of "
-						+ stocksName + " for " + stocksPrice + "$");
-			} else if (typeRequest == "B") {
-				this.output("You want sell " + stocksNumbers + " stocks of "
-						+ stocksName + " for " + stocksPrice + "$");
-			}
+			
+			
 			return IPSource + ";" + IPDest + ";" + typeRequest + ";"
 					+ stocksName + ";" + stocksPrice + ";" + stocksNumbers
 					+ "!";

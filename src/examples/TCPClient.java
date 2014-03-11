@@ -29,7 +29,6 @@ public class TCPClient {
 
 
 		lineProtocol = user.getAllInformations();
-		user.output("Message to send to Brocker : "+line);
 
 		socket = new Socket("localhost", 9999);
 
@@ -49,7 +48,7 @@ public class TCPClient {
 	private static boolean sendRequest() throws IOException {
 		boolean holdTheLine = true; // Connection exists
 		toServer.writeBytes(lineProtocol);
-		if (line.equals("!")) { // Does the user want to end the session?
+		if (lineProtocol.equals("!")) { // Does the user want to end the session?
 			holdTheLine = false;
 		}
 		return holdTheLine;
