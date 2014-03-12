@@ -35,29 +35,8 @@ public class TCPServer {
 			System.out.println("Connection with: "
 					+ client.getRemoteSocketAddress());
 			new EchoService(client).start();
-
 		}
 	}
-/*
-	static void handleRequests(Socket s) {
-		try {
-			fromClient = new BufferedReader( // Datastream FROM Client
-					new InputStreamReader(s.getInputStream()));
-			toClient = new DataOutputStream(s.getOutputStream()); // Datastream
-																	// TO Client
-			while (receiveRequest()) { // As long as connection exists
-				//parseFromClient(line);
-				sendResponse();
-			}
-			fromClient.close();
-			toClient.close();
-			s.close();
-			System.out.println("Session ended, Server remains active");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
-*/
 
 	static boolean receiveRequest() throws IOException {
 		boolean holdTheLine = true;
