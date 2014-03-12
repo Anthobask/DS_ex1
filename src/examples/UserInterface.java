@@ -43,7 +43,7 @@ public class UserInterface {
 		String typeRequest = "";
 		String stocksNumbers = "";
 		String stocksPrice = "";
-		String stocksName = listStocks[(int)(Math.random()*listStocks.length)]; // random
+		String stocksName = "AAPL" ;//listStocks[(int)(Math.random()*listStocks.length)]; // random
 		String IPSource = "localhost";
 		String IPDest = "localhost"; // to modify....
 

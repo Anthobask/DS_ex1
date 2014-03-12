@@ -73,28 +73,63 @@ public class TCPServer {
 	static void ManageProtocol() {
 		// we add this offer in a tab
 
+		int match = 0;
 		if (off.getM_stockType().equals("B")) {
 			tabBids.add(off);
 			// If bids, we check if ask match
-			int match = 0;
 			for (Offer anOffer : tabAsks) {
 				if (anOffer.getM_stockName().equals(off.getM_stockName())) {
-					if (anOffer.getM_quantity() >= off.getM_quantity()) {
+					if (anOffer.getM_quantity() <= off.getM_quantity()) {
 						match = 1;
 						off_event = anOffer;
 					}
 
 				}
 			}
-			if (match == 0) { // send "Waiting..."
+		} else if (off.getM_stockType().equals("A")) {
+			tabAsks.add(off);
+			for (Offer anOffer : tabBids) {
+				if (anOffer.getM_stockName().equals(off.getM_stockName())) {
+					if (anOffer.getM_quantity() >= off.getM_quantity()) {
+						match = 1;
+						off_event = anOffer;
+					}
+				}
+			}
+		}
+		
+		if (match == 0) { // send "Waiting..."
+			responseText = IPSource + ";" + IPDest + ";"
+					+ "W" + ";" + off.getM_stockName()
+					+ ";" + off.getM_price() + ";" + off.getM_quantity()
+					+ ";";
+		}
+		else {
+			
+			if(off.getM_stockType().equals("A"))
+			{
+				//this ask have a bid !
+				off_event.setM_quantity(Integer.toString(off_event.getM_quantity()- off.getM_quantity()));
 				responseText = IPSource + ";" + IPDest + ";"
-						+ "W" + ";" + off.getM_stockName()
+						+ "R" + off.getM_stockType() + ";" + off.getM_stockName()
 						+ ";" + off.getM_price() + ";" + off.getM_quantity()
 						+ ";";
 			}
-		} else if (off.getM_stockType().equals("A")) {
-			tabAsks.add(off);
+			else
+			{
+				//this bid have an ask !
+				off.setM_quantity(Integer.toString(off.getM_quantity()- off_event.getM_quantity()));
+				responseText = IPSource + ";" + IPDest + ";"
+						+ "R" + off.getM_stockType() + ";" + off.getM_stockName()
+						+ ";" + off.getM_price() + ";" + off.getM_quantity()
+						+ ";";
+			}			
 		}
+		
+		/*
+		 * 
+			
+		 */
 
 		/*
 		 * / try { InetAddress thisIp = InetAddress.getLocalHost(); IPSource =
