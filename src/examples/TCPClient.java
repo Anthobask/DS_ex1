@@ -35,8 +35,12 @@ public class TCPClient {
 
 		fromServer = new BufferedReader( // Datastream TO Server
 				new InputStreamReader(socket.getInputStream()));
-		while (sendRequest()) { // Send requests while connected
+		int count = 0;
+		while (count<=60) { 
+			Thread.sleep(1000);
+			sendRequest();// Send requests while connected
 			receiveResponse(); // Process server's answer
+			count++;
 		}
 		socket.close();
 		toServer.close();

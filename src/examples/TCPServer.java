@@ -34,10 +34,11 @@ public class TCPServer {
 													// socket
 			System.out.println("Connection with: "
 					+ client.getRemoteSocketAddress());
-			handleRequests(client);
+			new EchoService(client).start();
+
 		}
 	}
-
+/*
 	static void handleRequests(Socket s) {
 		try {
 			fromClient = new BufferedReader( // Datastream FROM Client
@@ -45,7 +46,7 @@ public class TCPServer {
 			toClient = new DataOutputStream(s.getOutputStream()); // Datastream
 																	// TO Client
 			while (receiveRequest()) { // As long as connection exists
-				parseFromClient(line);
+				//parseFromClient(line);
 				sendResponse();
 			}
 			fromClient.close();
@@ -56,94 +57,7 @@ public class TCPServer {
 			System.out.println(e);
 		}
 	}
-
-	static void parseFromClient(String clientRequest) {
-		off = new Offer();
-		String[] tbRequest = clientRequest.split(";");
-		off.setM_identity(tbRequest[0]);
-		off.setM_stockType(tbRequest[2]);
-		off.setM_stockName(tbRequest[3]);
-		off.setM_quantity(tbRequest[4]);
-		off.setM_price(tbRequest[5]);
-		IPDest = tbRequest[1];
-
-		ManageProtocol();
-	}
-
-	static void ManageProtocol() {
-		// we add this offer in a tab
-
-		int match = 0;
-		if (off.getM_stockType().equals("B")) {
-			tabBids.add(off);
-			// If bids, we check if ask match
-			for (Offer anOffer : tabAsks) {
-				if (anOffer.getM_stockName().equals(off.getM_stockName())) {
-					if (anOffer.getM_quantity() <= off.getM_quantity()) {
-						match = 1;
-						off_event = anOffer;
-					}
-
-				}
-			}
-		} else if (off.getM_stockType().equals("A")) {
-			tabAsks.add(off);
-			for (Offer anOffer : tabBids) {
-				if (anOffer.getM_stockName().equals(off.getM_stockName())) {
-					if (anOffer.getM_quantity() >= off.getM_quantity()) {
-						match = 1;
-						off_event = anOffer;
-					}
-				}
-			}
-		}
-		
-		if (match == 0) { // send "Waiting..."
-			responseText = IPSource + ";" + IPDest + ";"
-					+ "W" + ";" + off.getM_stockName()
-					+ ";" + off.getM_price() + ";" + off.getM_quantity()
-					+ ";";
-		}
-		else {
-			
-			if(off.getM_stockType().equals("A"))
-			{
-				//this ask have a bid !
-				off_event.setM_quantity(Integer.toString(off_event.getM_quantity()- off.getM_quantity()));
-				responseText = IPSource + ";" + IPDest + ";"
-						+ "R" + off.getM_stockType() + ";" + off.getM_stockName()
-						+ ";" + off.getM_price() + ";" + off.getM_quantity()
-						+ ";";
-			}
-			else
-			{
-				//this bid have an ask !
-				off.setM_quantity(Integer.toString(off.getM_quantity()- off_event.getM_quantity()));
-				responseText = IPSource + ";" + IPDest + ";"
-						+ "R" + off.getM_stockType() + ";" + off.getM_stockName()
-						+ ";" + off.getM_price() + ";" + off.getM_quantity()
-						+ ";";
-			}			
-		}
-		
-		/*
-		 * 
-			
-		 */
-
-		/*
-		 * / try { InetAddress thisIp = InetAddress.getLocalHost(); IPSource =
-		 * thisIp.getHostAddress(); } catch (UnknownHostException e) {
-		 * System.out.println("IP is not found... "); e.printStackTrace(); } //
-		 * IPSource + ";" + IPDest + ";" + typeRequest + ";" + stocksName + ";"
-		 * // + stocksPrice + ";" + stocksNumbers;
-		 * 
-		 * String text = IPSource + ";" + IPDest + ";" + off.getM_stockType() +
-		 * ";" + off.getM_stockName() + ";" + off.getM_price() + ";" +
-		 * off.getM_quantity() + ";";
-		 */
-
-	}
+*/
 
 	static boolean receiveRequest() throws IOException {
 		boolean holdTheLine = true;

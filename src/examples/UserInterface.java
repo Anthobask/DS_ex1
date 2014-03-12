@@ -23,6 +23,7 @@ public class UserInterface {
 	BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 	
 	String[] listStocks = {"AAPL", "IBM", "MSFT", "ORCL"};
+	String[] listRequest = {"A", "B"};
 
 	public String input() throws IOException {
 		return stdIn.readLine();
@@ -40,80 +41,23 @@ public class UserInterface {
 	public String getAllInformations() {
 
 		int callOut;
-		String typeRequest = "";
-		String stocksNumbers = "";
-		String stocksPrice = "";
-		String stocksName = "AAPL" ;//listStocks[(int)(Math.random()*listStocks.length)]; // random
-		String IPSource = "localhost";
+		String typeRequest = listRequest[(int)(Math.random()*listRequest.length)]; // random
+		String stocksNumbers = Integer.toString((int)(Math.random() * (100-1)) + 1); // "";
+		String stocksPrice = Integer.toString((int)(Math.random() * (100-1)) + 1); // "";
+		String stocksName = listStocks[(int)(Math.random()*listStocks.length)]; // random
+		String IPSource = "CLIENT_2";
 		String IPDest = "localhost"; // to modify....
-
-		try {
-
-			// seller or buyer ?
-			callOut = 1;
-			while (callOut == 1) {
-				callOut = 0;
-				this.output("Do you want to buy (1) or to sell (2) ? ");
-				String line = stdIn.readLine();
-				if (line.equals("1")) {
-					typeRequest = "A"; // type request is "Adds"
-				} else if (line.equals("2")) {
-					typeRequest = "B"; // type request is "Bids
-				} else if (line.equals("0")) {
-					callOut = -1; // go out
-				} else {
-					callOut = 1;
-				}
-			}
-			// Number ?
-			if (callOut >= 0) {
-				callOut = 1;
-				while (callOut == 1) {
-					callOut = 0;
-					this.output("How many stocks ? ");
-					String line = this.input();
-					if (line.equals("0")) {
-						callOut = -1;
-					} else {
-						stocksNumbers = line;
-					}
-				}
-			}
-
-			// price ?
-			if (callOut >= 0) {
-				callOut = 1;
-				while (callOut == 1) {
-					callOut = 0;
-					this.output("How much for unit price ? ");
-					String line = this.input();
-					if (line.equals("0")) {
-						callOut = -1;
-					} else {
-						stocksPrice = line;
-					}
-				}
-			}
-
-			try {
-				InetAddress thisIp = InetAddress.getLocalHost();
-				IPSource = thisIp.getHostAddress();
-			} catch (UnknownHostException e) {
-				System.out.println("IP is not found... ");
-				e.printStackTrace();
-			}
-
-			
-			
-			return IPSource + ";" + IPDest + ";" + typeRequest + ";"
-					+ stocksName + ";" + stocksPrice + ";" + stocksNumbers;
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.print("testError");
+		/*try {
+			InetAddress thisIp = InetAddress.getLocalHost();
+			IPSource = thisIp.getHostAddress();
+		} catch (UnknownHostException e) {
+			System.out.println("IP is not found... ");
 			e.printStackTrace();
-		}
+		}*/
+		
+		
+		return IPSource + ";" + IPDest + ";" + typeRequest + ";"
+				+ stocksName + ";" + stocksPrice + ";" + stocksNumbers;
 
-		return "";
 	}
 }
