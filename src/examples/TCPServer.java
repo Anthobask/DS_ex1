@@ -12,24 +12,26 @@ package examples;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class TCPServer {
 
 	static String line;
 	static BufferedReader fromClient;
 	static DataOutputStream toClient;
-	static Offer off;
+	static Offer off;	
+	static ArrayList<Offer> tabBids = new ArrayList<Offer>();
+	static ArrayList<Offer> tabAsks = new ArrayList<Offer>();
 
 	public static void main(String[] args) throws Exception {
 		ServerSocket contactSocket = new ServerSocket(9999);
 		while (true) { // Handle connection request
-			Socket client = contactSocket.accept(); // creat communication
+			Socket client = contactSocket.accept(); // create communication
 													// socket
 			System.out.println("Connection with: "
 					+ client.getRemoteSocketAddress());
 			handleRequests(client);
 		}
-		
 	}
 
 	static void handleRequests(Socket s) {
@@ -59,6 +61,17 @@ public class TCPServer {
 		off.setM_stockName(tbRequest[3]);
 		off.setM_quantity(tbRequest[4]);
 		off.setM_price(tbRequest[5]);
+		
+		//* we add this offer in a tab
+		if (off.getM_stockType().equals("B"))
+		{
+			tabBids.add(off);
+		}
+		else if (off.getM_stockType().equals("A"))
+		{
+			tabAsks.add(off);
+		}
+		//*/
 	}
 
 	static boolean receiveRequest() throws IOException {
@@ -71,10 +84,20 @@ public class TCPServer {
 	}
 
 	static void sendResponse() throws IOException {
-		//toClient.writeBytes("toto" +'\n');
-		toClient.writeBytes("Hi, you are : " + off.getM_identity()
+		String text = "Hi, you are : " + off.getM_identity()
 				+ "Your request is : You want " + off.getM_stockType()
 				+ " " + off.getM_quantity() + " of " + off.getM_stockName()
-				+ " in price of " + off.getM_price() + '\n'); // Send answer
+				+ " in price of " + off.getM_price() ;
+	
+		text += "Number Bids : " + Integer.toString(tabBids.size()); 
+		text += "Number Asks : " + Integer.toString(tabAsks.size());
+
+		toClient.writeBytes(text+ '\n'); // Send answer
+
+		
+		
+		//String test = Integer.toString(tabBids.length);
+			//	+ "  - Number Bids : " + test
+			//	+ "  - Number Ask : " + Integer.toString(tabAsks.length)
 	}
 }
