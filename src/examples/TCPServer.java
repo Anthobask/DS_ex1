@@ -19,9 +19,13 @@ public class TCPServer {
 	static String line;
 	static BufferedReader fromClient;
 	static DataOutputStream toClient;
-	static Offer off;	
+	static Offer off; // current offer
+	static Offer off_event; // offer which buy or sell after current off.
 	static ArrayList<Offer> tabBids = new ArrayList<Offer>();
 	static ArrayList<Offer> tabAsks = new ArrayList<Offer>();
+	static String IPSource = "localhost";
+	static String IPDest = "localhost";
+	static String responseText = "Error...";
 
 	public static void main(String[] args) throws Exception {
 		ServerSocket contactSocket = new ServerSocket(9999);
@@ -42,7 +46,7 @@ public class TCPServer {
 																	// TO Client
 			while (receiveRequest()) { // As long as connection exists
 				parseFromClient(line);
-				sendResponse();			
+				sendResponse();
 			}
 			fromClient.close();
 			toClient.close();
@@ -61,17 +65,49 @@ public class TCPServer {
 		off.setM_stockName(tbRequest[3]);
 		off.setM_quantity(tbRequest[4]);
 		off.setM_price(tbRequest[5]);
-		
-		//* we add this offer in a tab
-		if (off.getM_stockType().equals("B"))
-		{
+		IPDest = tbRequest[1];
+
+		ManageProtocol();
+	}
+
+	static void ManageProtocol() {
+		// we add this offer in a tab
+
+		if (off.getM_stockType().equals("B")) {
 			tabBids.add(off);
-		}
-		else if (off.getM_stockType().equals("A"))
-		{
+			// If bids, we check if ask match
+			int match = 0;
+			for (Offer anOffer : tabAsks) {
+				if (anOffer.getM_stockName().equals(off.getM_stockName())) {
+					if (anOffer.getM_quantity() >= off.getM_quantity()) {
+						match = 1;
+						off_event = anOffer;
+					}
+
+				}
+			}
+			if (match == 0) { // send "Waiting..."
+				responseText = IPSource + ";" + IPDest + ";"
+						+ "W" + ";" + off.getM_stockName()
+						+ ";" + off.getM_price() + ";" + off.getM_quantity()
+						+ ";";
+			}
+		} else if (off.getM_stockType().equals("A")) {
 			tabAsks.add(off);
 		}
-		//*/
+
+		/*
+		 * / try { InetAddress thisIp = InetAddress.getLocalHost(); IPSource =
+		 * thisIp.getHostAddress(); } catch (UnknownHostException e) {
+		 * System.out.println("IP is not found... "); e.printStackTrace(); } //
+		 * IPSource + ";" + IPDest + ";" + typeRequest + ";" + stocksName + ";"
+		 * // + stocksPrice + ";" + stocksNumbers;
+		 * 
+		 * String text = IPSource + ";" + IPDest + ";" + off.getM_stockType() +
+		 * ";" + off.getM_stockName() + ";" + off.getM_price() + ";" +
+		 * off.getM_quantity() + ";";
+		 */
+
 	}
 
 	static boolean receiveRequest() throws IOException {
@@ -84,14 +120,7 @@ public class TCPServer {
 	}
 
 	static void sendResponse() throws IOException {
-		String text = "Hi, you are : " + off.getM_identity()
-				+ "Your request is : You want " + off.getM_stockType()
-				+ " " + off.getM_quantity() + " of " + off.getM_stockName()
-				+ " in price of " + off.getM_price() ;
-	
-		text += "Number Bids : " + Integer.toString(tabBids.size()); 
-		text += "Number Asks : " + Integer.toString(tabAsks.size());
 
-		toClient.writeBytes(text+ '\n'); // Send answer
+		toClient.writeBytes(responseText + '\n'); // Send answer
 	}
 }

@@ -45,7 +45,7 @@ public class UserInterface {
 		String stocksPrice = "";
 		String stocksName = listStocks[(int)(Math.random()*listStocks.length)]; // random
 		String IPSource = "localhost";
-		String IPDest = "192.168.10.1"; // to modify....
+		String IPDest = "localhost"; // to modify....
 
 		try {
 

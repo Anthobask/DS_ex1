@@ -36,8 +36,8 @@ public class Offer {
 		this.m_stockType = m_stockType;
 	}
 
-	public String getM_quantity() {
-		return m_quantity;
+	public int getM_quantity() {
+		return Integer.parseInt(m_quantity);
 	}
 
 	public void setM_quantity(String m_quantity) {
@@ -52,8 +52,8 @@ public class Offer {
 		this.m_stockName = m_stockName;
 	}
 
-	public String getM_price() {
-		return m_price;
+	public int getM_price() {
+		return Integer.parseInt(m_price);
 	}
 
 	public void setM_price(String m_price) {
