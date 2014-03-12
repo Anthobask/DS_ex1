@@ -8,6 +8,7 @@ public class Offer {
 	private String m_price;
 
 	public Offer() {
+		System.out.print("OK");
 
 	}
 
@@ -20,14 +21,15 @@ public class Offer {
 	}
 
 	public String getM_stockType() {
-		if (m_stockType == "B") {
+		/* if (m_stockType == "B") {
 			return "to sell";
 		}
 		if (m_stockType == "A") {
 			return "to buy";
 		}else{
 			return "Must be A or B";
-		}
+		}*/
+		return this.m_stockType;
 	}
 
 	public void setM_stockType(String m_stockType) {

@@ -93,11 +93,5 @@ public class TCPServer {
 		text += "Number Asks : " + Integer.toString(tabAsks.size());
 
 		toClient.writeBytes(text+ '\n'); // Send answer
-
-		
-		
-		//String test = Integer.toString(tabBids.length);
-			//	+ "  - Number Bids : " + test
-			//	+ "  - Number Ask : " + Integer.toString(tabAsks.length)
 	}
 }
