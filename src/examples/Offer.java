@@ -8,7 +8,6 @@ public class Offer {
 	private String m_price;
 
 	public Offer() {
-		System.out.print("OK");
 
 	}
 

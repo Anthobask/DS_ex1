@@ -27,13 +27,13 @@ public class EchoService extends Thread{
 	static String IPSource = "localhost";
 	static String IPDest = "localhost";
 	static String responseText = "Error...";
+	static Stock currentStock;
 	
   @Override
     public void run (){
         String line;
         BufferedReader fromClient;
         DataOutputStream toClient;
-        boolean verbunden = true;
         System.out.println("Thread started: "+this); // Display Thread-ID
         try{
             fromClient = new BufferedReader              // Datastream FROM Client
@@ -42,13 +42,9 @@ public class EchoService extends Thread{
             
             line = fromClient.readLine();              // Read Request
             parseFromClient(line);
-            
-            if (line.equals(".")) verbunden = false;   // Break Conneciton?
-            else toClient.writeBytes(line.toUpperCase()+'\n'); // Response
 
-            /*while(verbunden){     // repeat as long as connection exists
-                System.out.println("Received: "+ line);
-                            }*/
+            toClient.writeBytes(line.toUpperCase()+'\n'); // Response
+
             fromClient.close(); toClient.close(); client.close(); // End
             System.out.println("Thread ended: "+this);
         }catch (Exception e){System.out.println(e);}
@@ -63,8 +59,13 @@ public class EchoService extends Thread{
 		off.setM_quantity(tbRequest[4]);
 		off.setM_price(tbRequest[5]);
 		IPDest = tbRequest[1];
-
+		
+		currentStock = getStockByName(tbRequest[3]);
 		ManageProtocol();
+		
+		// todo : ...
+		responseText = currentStock.getName() + "   Price : "+ currentStock.getPrice();
+		
 	}
 
 	static void ManageProtocol() {
@@ -94,7 +95,6 @@ public class EchoService extends Thread{
 				}
 			}
 		}
-		
 		if (match == 0) { // send "Waiting..."
 			responseText = IPSource + ";" + IPDest + ";"
 					+ "W" + ";" + off.getM_stockName()
@@ -122,8 +122,18 @@ public class EchoService extends Thread{
 						+ ";";
 			}			
 		}
-		
-
+	}
+	
+	public static Stock getStockByName(String name)
+	{
+		for(Stock s : Singleton.getInstance().listeStocks)
+		{
+			if(s.getName().equals(name))
+			{
+				return s;
+			}
+		}
+		return null;
 	}
 
 }
