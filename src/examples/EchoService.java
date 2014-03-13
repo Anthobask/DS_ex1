@@ -39,15 +39,16 @@ public class EchoService extends Thread{
             fromClient = new BufferedReader              // Datastream FROM Client
             (new InputStreamReader(client.getInputStream()));
             toClient = new DataOutputStream (client.getOutputStream()); // TO Client
-            while(verbunden){     // repeat as long as connection exists
-                line = fromClient.readLine();              // Read Request
-                
-                parseFromClient(line);
-                
+            
+            line = fromClient.readLine();              // Read Request
+            parseFromClient(line);
+            
+            if (line.equals(".")) verbunden = false;   // Break Conneciton?
+            else toClient.writeBytes(line.toUpperCase()+'\n'); // Response
+
+            /*while(verbunden){     // repeat as long as connection exists
                 System.out.println("Received: "+ line);
-                if (line.equals(".")) verbunden = false;   // Break Conneciton?
-                else toClient.writeBytes(line.toUpperCase()+'\n'); // Response
-            }
+                            }*/
             fromClient.close(); toClient.close(); client.close(); // End
             System.out.println("Thread ended: "+this);
         }catch (Exception e){System.out.println(e);}

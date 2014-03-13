@@ -21,11 +21,10 @@ public class TCPServer {
 	
 	public static void main(String[] args) throws Exception {
 		// In first, we launch Web Server :
-		//MyWebServer serverWeb = new MyWebServer();
-		//serverWeb.start();
+		MyWebServer serverWeb = new MyWebServer();
+		serverWeb.start();
 		
-		// Next, we launch TCP Server :
-		
+		// Next, we launch TCP Server :		
 		ServerSocket contactSocket = new ServerSocket(9999);
 		while (true) { // Handle connection request
 			Socket client = contactSocket.accept(); // create communication
