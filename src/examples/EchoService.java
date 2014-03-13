@@ -16,12 +16,10 @@ import java.io.InputStreamReader;
 import java.net.*;
 import java.util.ArrayList;
 public class EchoService extends Thread{
+	
     Socket client;
     EchoService(Socket client){this.client = client;}
 
-    static String line;
-	static BufferedReader fromClient;
-	static DataOutputStream toClient;
 	static Offer off; // current offer
 	static Offer off_event; // offer which buy or sell after current off.
 	static ArrayList<Offer> tabBids = new ArrayList<Offer>();
@@ -124,22 +122,6 @@ public class EchoService extends Thread{
 			}			
 		}
 		
-		/*
-		 * 
-			
-		 */
-
-		/*
-		 * / try { InetAddress thisIp = InetAddress.getLocalHost(); IPSource =
-		 * thisIp.getHostAddress(); } catch (UnknownHostException e) {
-		 * System.out.println("IP is not found... "); e.printStackTrace(); } //
-		 * IPSource + ";" + IPDest + ";" + typeRequest + ";" + stocksName + ";"
-		 * // + stocksPrice + ";" + stocksNumbers;
-		 * 
-		 * String text = IPSource + ";" + IPDest + ";" + off.getM_stockType() +
-		 * ";" + off.getM_stockName() + ";" + off.getM_price() + ";" +
-		 * off.getM_quantity() + ";";
-		 */
 
 	}
 
