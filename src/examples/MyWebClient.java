@@ -8,18 +8,14 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 public class MyWebClient {
-	private UserInterface userInterface;
-	private String[] userInformationStrings;
+	private static UserInterface userInterface;
+	private static String[] userInformationStrings;
 
-	public MyWebClient() {
-
-	}
-
-	public void runClient() throws XmlRpcException {
+	 public static void main(String[] args) throws Exception {
 		XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
 
 		try {
-			config.setServerURL(new URL("http://localhost:8080/xmlrpc"));
+			config.setServerURL(new URL("http://127.0.0.1:6666/xmlrpc"));
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -31,11 +27,15 @@ public class MyWebClient {
 
 		userInformationStrings = userInterface.getTabOfAllInformations();
 
-		Object[] params = new Object[] { userInformationStrings[0],
-				userInformationStrings[1], userInformationStrings[2],
-				userInformationStrings[3], userInformationStrings[4],
-				userInformationStrings[5] };
-		System.out.println("About to get results...(params[0] = " + params[0]
-				+ ", params[1] = " + params[1] + ").");
+//		Object[] params = new Object[] { userInformationStrings[0],
+//				userInformationStrings[1], userInformationStrings[2],
+//				userInformationStrings[3], userInformationStrings[4],
+//				userInformationStrings[5] };
+		Object[] params = new Object[]{userInformationStrings[3]};
+		//System.out.println("toto");
+//		System.out.println("About to get results...(params[0] = " + params[0]
+//			 ", params[1] = " + params[1] + ").");
+		System.out.println(client.execute("StockProcedure.getPrice",params));
+		
 	}
 }

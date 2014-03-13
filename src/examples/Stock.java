@@ -10,7 +10,7 @@ public class Stock
 		price =p_price;
 		this.name = name;
 	}
-	public float getPrice()
+	public int getPrice()
 	{
 		return price;
 	}

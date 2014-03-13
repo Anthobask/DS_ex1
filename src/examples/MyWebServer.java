@@ -7,8 +7,25 @@ import org.apache.xmlrpc.server.XmlRpcServerConfigImpl;
 import org.apache.xmlrpc.webserver.WebServer;
 
 public class MyWebServer extends Thread {
+	private Stock s;
+	private EchoService e;
 	
-	private final int port = 8080;
+	public MyWebServer(){
+		
+	}
+	
+	public int getPrice(String name){
+		for(Stock s : Singleton.getInstance().listeStocks)
+		{
+			if(s.getName().equals(name))
+			{
+				return s.getPrice();
+			}
+		}
+		return 0;
+	}
+	
+	private final int port = 6666;
 	
 		public void run() {
 		    try {
@@ -18,7 +35,7 @@ public class MyWebServer extends Thread {
 		      XmlRpcServer xmlRpcServer = webServer.getXmlRpcServer();
 		      PropertyHandlerMapping phm = new PropertyHandlerMapping();
 
-		      phm.addHandler( "StockProcedure", StockProcedure.class);
+		      phm.addHandler( "StockProcedure", MyWebServer.class);
 		      xmlRpcServer.setHandlerMapping(phm);		    
 		     XmlRpcServerConfigImpl serverConfig = (XmlRpcServerConfigImpl) xmlRpcServer.getConfig();
 		      serverConfig.setEnabledForExtensions(true);
