@@ -28,6 +28,13 @@ public class TCPServer {
 	static String responseText = "Error...";
 
 	public static void main(String[] args) throws Exception {
+		// In first, we launch WebServer :
+		MyWebServer serverWeb = new MyWebServer();
+		serverWeb.start();
+		
+		////
+		
+		
 		ServerSocket contactSocket = new ServerSocket(9999);
 		while (true) { // Handle connection request
 			Socket client = contactSocket.accept(); // create communication
