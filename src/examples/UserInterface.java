@@ -37,6 +37,11 @@ public class UserInterface {
 	public void finalize() throws IOException {
 		stdIn.close();
 	}
+	
+	public String[] getTabOfAllInformations(){
+		String[] t = getAllInformations().split(";");
+		return t;
+	}
 
 	public String getAllInformations() {
 
